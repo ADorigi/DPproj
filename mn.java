@@ -10,9 +10,8 @@ class mn{
 
         int T,k;
 
-        String dataset[][]= new String[100][15];
+        List<String[]> dataset = new ArrayList<String[]>();
         dataset=new cls().readData();
-        System.out.println(dataset[12][4]);
 
         System.out.print("Enter the Number of records to be used:");
         T=Integer.parseInt(br.readLine());
