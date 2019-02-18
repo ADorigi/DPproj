@@ -11,7 +11,6 @@ class cls{
             FileInputStream inf=new FileInputStream("adult.txt");
             InputStreamReader Im=new InputStreamReader(inf);
             BufferedReader br=new BufferedReader(Im);
-            System.out.println("Text from File is as Follows..");
            
             for(int i=0;i<100;i++){
                 int j=0;

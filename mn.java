@@ -23,6 +23,27 @@ class mn{
         System.out.print("Number of clusters are:");
         p=(int)Math.floor(T/k);
         System.out.println(p);
-        
+
+        List<List<Integer>> cluster= new ArrayList<List<Integer>>();
+        Set<Integer> first=new HashSet<Integer>();
+        Random r=new Random();
+
+        for(int i = 0; i < p; i++)  {
+            cluster.add(new ArrayList<Integer>());
+        }
+
+        while(first.size()<p){
+            first.add((r.nextInt(T)+1));
+        }
+
+        System.out.println(first);
+
+        List<Integer> firstl = new ArrayList<Integer>(first);
+
+        for(int i=0;i<p;i++){
+            cluster.get(i).add(firstl.get(i));
+        }
+
+        System.out.println(cluster);
     }
 }
