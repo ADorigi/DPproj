@@ -24,10 +24,11 @@ class mn{
         p=(int)Math.floor(T/k);
         System.out.println(p);
 
-        List<List<Integer>> cluster= new ArrayList<List<Integer>>();
-        Set<Integer> first=new HashSet<Integer>();
+        List<List<Integer>> cluster= new ArrayList<List<Integer>>(); // stores list of elements in array
+        Set<Integer> first=new HashSet<Integer>();//stores the first random elements in each cluster
         Random r=new Random();
 
+        //initialize each cluster
         for(int i = 0; i < p; i++)  {
             cluster.add(new ArrayList<Integer>());
         }
@@ -40,10 +41,12 @@ class mn{
 
         List<Integer> firstl = new ArrayList<Integer>(first);
 
+        // add the first random elements of each cluster in the 
         for(int i=0;i<p;i++){
             cluster.get(i).add(firstl.get(i));
         }
-
         System.out.println(cluster);
+
+        
     }
 }
