@@ -6,9 +6,12 @@ import java.lang.Math;
 
 class mn{
 
-    static List<Integer> cntr;
-    static List<Integer> firstl;
+    static int T,k,p; //T-number of records     k- anonymization     p- number of clusters
+    static List<Integer> cntr; //centroids
     static List<String[]> dataset = new ArrayList<String[]>();
+    static natt=0; //number of attributes
+    static double[] aver;
+    static double[] stddev;
 
     //This function calculates the standard deviation
     public static double calculateSD(double numArray[])
@@ -29,6 +32,21 @@ class mn{
         return Math.sqrt(standardDeviation/length);
     }
 
+    //this function calculates the prerequisites of all the attributes
+    public static void calcPre(){
+        double s=0;
+        for(int i=0;i<T;i++){
+            s+=Double.parseDouble(dataset.get(i)[0]);
+        }
+        aver[0]=s/T;
+        s=0;
+        for(int i=0;i<T;i++){
+            s+=Double.parseDouble(dataset.get(i)[1]);
+        }
+        aver[1]=s/T;
+
+
+    }
 
 
     //this function will decide the cluster with closest centroid for the point 'a'
@@ -36,7 +54,7 @@ class mn{
         int dis=0;
         int clst=0;
 
-
+        
 
         return clst;
     }
@@ -51,6 +69,8 @@ class mn{
 
         dataset=new cls().readData();
 
+        aver = new double[dataset.get(0).length];
+        calcPre();
         System.out.print("Enter the Number of records to be used:");
         T=Integer.parseInt(br.readLine());
 
@@ -75,7 +95,7 @@ class mn{
 
         System.out.println(first);
 
-        firstl = new ArrayList<Integer>(first);
+        List<Integer> firstl = new ArrayList<Integer>(first);
         // add the first random elements of each cluster in the cluster list
         for(int i=0;i<p;i++){
             cluster.get(i).add(firstl.get(i));
