@@ -8,11 +8,11 @@ class cls{
         String dataset[]=new String[15];
 
         List<String[]> dtst = new ArrayList<String[]>();
-            FileInputStream inf=new FileInputStream("adult.txt");
+            FileInputStream inf=new FileInputStream("testdat.txt");
             InputStreamReader Im=new InputStreamReader(inf);
             BufferedReader br=new BufferedReader(Im);
            
-            for(int i=0;i<100;i++){
+            for(int i=0;i<7;i++){
                 int j=0;
                 String text=br.readLine();
                 StringTokenizer st=new StringTokenizer(text,",");
