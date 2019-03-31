@@ -9,7 +9,7 @@ class mn{
     static int T,k,p; //T-number of records     k- anonymization     p- number of clusters
     static List<Integer> cntr; //centroids
     static List<String[]> dataset = new ArrayList<String[]>();
-    static natt=0; //number of attributes
+    static int natt=0; //number of attributes
     static double[] aver;
     static double[] stddev;
 
@@ -53,8 +53,29 @@ class mn{
     public static int clusterDecide(int a){   // int a is the new record 
         int dis=0;
         int clst=0;
-
+        double avg=0;
+        double stdev=0;
+        double nni[] = new double[10];
         
+        int sum=0;
+        for(int i=1;i<dataset.size();i++)
+            sum+=Integer.parseInt(dataset.get(i)[0]);
+        avg=sum/(dataset.size());
+
+        sum=0;
+        for(int i=1;i<dataset.size();i++)
+            stdev+=(Integer.parseInt(dataset.get(i)[0])-avg)*(Integer.parseInt(dataset.get(i)[0])-avg);
+        stdev=stdev/(dataset.size());
+        stdev=Math.sqrt(stdev);
+
+        for(int i=1;i<dataset.size();i++){
+            nni[i]=Math.abs(Integer.parseInt(dataset.get(i)[0])-avg)/stdev;
+            System.out.println(nni[i]);
+        }
+
+
+        System.out.println(avg);
+        System.out.println(stdev);
 
         return clst;
     }
@@ -68,7 +89,7 @@ class mn{
         Set<Integer> first=new HashSet<Integer>();//stores the first random elements in each cluster
 
         dataset=new cls().readData();
-
+        /*
         aver = new double[dataset.get(0).length];
         calcPre();
         System.out.print("Enter the Number of records to be used:");
@@ -115,6 +136,18 @@ class mn{
 
 
         }
+
+        System.out.println(cluster);
+
+        /*dataset=new cls().readData();
+        for(int i=0;i<dataset.size();i++){
+            String[] a = dataset.get(i);
+            System.out.println(a[0]);
+        } */
+
+        int x=clusterDecide(1);
+
+
 
     }
 }

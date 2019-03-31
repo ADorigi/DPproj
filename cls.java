@@ -5,7 +5,7 @@ import java.util.*;
 
 class cls{
     public List<String[]> readData() throws FileNotFoundException, IOException{
-        String dataset[]=new String[15];
+        String dataset[][]=new String[200][15];
 
         List<String[]> dtst = new ArrayList<String[]>();
             FileInputStream inf=new FileInputStream("testdat.txt");
@@ -16,13 +16,17 @@ class cls{
                 int j=0;
                 String text=br.readLine();
                 StringTokenizer st=new StringTokenizer(text,",");
-                 while(st.hasMoreTokens()){
-                   dataset[j]=st.nextToken();
-                   j++;
-                 }
-                 dtst.add(dataset);
+                while(st.hasMoreTokens()){
+                dataset[i][j]=st.nextToken();
+                j++;
+                }
+                dtst.add(dataset[i]);
+                
+                 
 
     }
+    br.close();
+
     return dtst;
 }
 }
