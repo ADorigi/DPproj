@@ -1,0 +1,7 @@
+Age,Gender,Location,Disease
+34,1,Chennai,Flu
+21,1,Vellore,Cold
+23,0,Banglore,Cold
+63,1,Vellore,Flu
+43,0,Banglore,Flu
+23,0,Chennai,Cold

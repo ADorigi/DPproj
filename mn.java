@@ -9,31 +9,18 @@ class mn{
     static int T,k,p; //T-number of records     k- anonymization     p- number of clusters
     static List<Integer> cntr; //centroids
     static List<String[]> dataset = new ArrayList<String[]>();
-    static int natt=0; //number of attributes
-    static double[] aver;
-    static double[] stddev;
+    static int natt=0;
+    static List<Double> nni= new ArrayList<Double>();
+    static List<String> catAnony = new ArrayList<String>();
 
-    //This function calculates the standard deviation
-    public static double calculateSD(double numArray[])
-    {
-        double sum = 0.0, standardDeviation = 0.0;
-        int length = numArray.length;
+    //number of attributes
+    /*static double[] aver;
+    static double[] stddev;*/
 
-        for(double num : numArray) {
-            sum += num;
-        }
-
-        double mean = sum/length;
-
-        for(double num: numArray) {
-            standardDeviation += Math.pow(num - mean, 2);
-        }
-
-        return Math.sqrt(standardDeviation/length);
-    }
+    
 
     //this function calculates the prerequisites of all the attributes
-    public static void calcPre(){
+    /*public static void calcPre(){
         double s=0;
         for(int i=0;i<T;i++){
             s+=Double.parseDouble(dataset.get(i)[0]);
@@ -45,18 +32,17 @@ class mn{
         }
         aver[1]=s/T;
 
-
-    }
+    }*/
 
 
     //this function will decide the cluster with closest centroid for the point 'a'
-    public static int clusterDecide(int a){   // int a is the new record 
-        int dis=0;
-        int clst=0;
+    public static void calcPre(){   // int a is the new record 
+        
         double avg=0;
         double stdev=0;
-        double nni[] = new double[10];
         
+        
+        //For numerical data
         int sum=0;
         for(int i=1;i<dataset.size();i++)
             sum+=Integer.parseInt(dataset.get(i)[0]);
@@ -69,15 +55,77 @@ class mn{
         stdev=Math.sqrt(stdev);
 
         for(int i=1;i<dataset.size();i++){
-            nni[i]=Math.abs(Integer.parseInt(dataset.get(i)[0])-avg)/stdev;
-            System.out.println(nni[i]);
+            nni.add(Math.abs(Integer.parseInt(dataset.get(i)[0])-avg)/stdev);
+            System.out.println(nni.get(i-1));
         }
 
+
+
+        //for Categorical data
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the level of anonymization for categorical data:");
+        int lvl= sc.nextInt();
+        
+
+        if(lvl==0){
+            for(int i=1;i<dataset.size();i++){
+                String str= dataset.get(i)[2];
+                catAnony.add(str);
+            }
+        }
+        else if(lvl==1){
+            for(int i=1;i<dataset.size();i++){
+                String str= dataset.get(i)[2];
+                if(str.equals("Chennai") || str.equals("Vellore"))
+                    catAnony.add("Tamil Nadu");
+                else
+                    catAnony.add("Karnataka");
+            }
+        }
+        else if(lvl==2){
+            for(int i=1;i<dataset.size();i++)
+                catAnony.add("India");
+        }
+
+
+        
 
         System.out.println(avg);
         System.out.println(stdev);
 
-        return clst;
+        System.out.println(catAnony);
+
+    }
+
+    public static double dista(int a, int b){
+        double dis=0;
+        
+
+        dis= Math.pow((nni.get(a)-nni.get(b)),2);
+        if(catAnony.get(a).equals(catAnony.get(b)))
+            dis+=1;
+        
+        dis= Math.sqrt(dis);
+        
+        return dis;
+        
+    }
+
+    public static int clusterDecide(int a){
+
+        int clus=0;
+        double dis=dista(a, cntr.get(0));
+        for(int i=1;i<cntr.size();i++){
+            System.out.print(dis+" "+dista(a, cntr.get(i)));
+            if(dista(a, cntr.get(i))<dis){
+                dis=dista(a, cntr.get(i));
+                clus=i;
+            }
+        }
+        System.out.println();
+
+        return clus;
+        
     }
 
     public static void main(String[] args) throws FileNotFoundException, IOException{
@@ -89,11 +137,11 @@ class mn{
         Set<Integer> first=new HashSet<Integer>();//stores the first random elements in each cluster
 
         dataset=new cls().readData();
-        /*
-        aver = new double[dataset.get(0).length];
+        //aver = new double[dataset.get(0).length];
         calcPre();
-        System.out.print("Enter the Number of records to be used:");
-        T=Integer.parseInt(br.readLine());
+        /*System.out.print("Enter the Number of records to be used:");
+        T=Integer.parseInt(br.readLine());*/
+        T=6;
 
         System.out.print("Enter value of k:");
         k=Integer.parseInt(br.readLine());
@@ -101,6 +149,8 @@ class mn{
         System.out.print("Number of clusters are:");
         p=(int)Math.floor(T/k);
         System.out.println(p);
+        
+        
 
         
         Random r=new Random();
@@ -111,7 +161,7 @@ class mn{
         }
 
         while(first.size()<p){
-            first.add((r.nextInt(T)+1));
+            first.add((r.nextInt(T-1)+1));
         }
 
         System.out.println(first);
@@ -145,7 +195,7 @@ class mn{
             System.out.println(a[0]);
         } */
 
-        int x=clusterDecide(1);
+        
 
 
 
