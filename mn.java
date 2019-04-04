@@ -99,8 +99,7 @@ class mn{
 
     public static double dista(int a, int b){
         double dis=0;
-        
-
+    
         dis= Math.pow((nni.get(a)-nni.get(b)),2);
         if(catAnony.get(a).equals(catAnony.get(b)))
             dis+=1;
