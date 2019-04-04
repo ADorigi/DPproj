@@ -12,6 +12,7 @@ class mn{
     static int natt=0;
     static List<Double> nni= new ArrayList<Double>();
     static List<String> catAnony = new ArrayList<String>();
+    static List<List<Integer>> cluster= new ArrayList<List<Integer>>(); // stores list of elements in array
 
     //number of attributes
     /*static double[] aver;
@@ -127,20 +128,52 @@ class mn{
         
     }
 
+    public static void changeCntr(int x){
+        
+        List<Integer> curr = new ArrayList<Integer>(cluster.get(x));
+        double distances[] = new double[cluster.get(x).size()];
+        double disum =0;
+        int cntro=0;
+
+        if(cluster.get(x).size()>2){
+            for(int i=0;i<curr.size();i++){
+                disum=0;
+                for(int j=0;j<curr.size();j++){
+                    if(i==j)
+                        continue;
+                    else{
+                        disum+=dista(curr.get(i),curr.get(j));
+                    }
+                }
+                distances[i]= disum;
+            }
+
+            for(int i=0;i<distances.length;i++)
+                if(distances[i]<distances[cntro])
+                    cntro=i;
+            
+            cntr.set(x, curr.get(cntro));
+            System.out.println("Cluster changed");
+
+        }
+
+        
+    }
+
+
     public static void main(String[] args) throws FileNotFoundException, IOException{
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int T,k,p;
-        List<List<Integer>> cluster= new ArrayList<List<Integer>>(); // stores list of elements in array
+        
         Set<Integer> first=new HashSet<Integer>();//stores the first random elements in each cluster
 
         dataset=new cls().readData();
         //aver = new double[dataset.get(0).length];
-        calcPre();
         /*System.out.print("Enter the Number of records to be used:");
         T=Integer.parseInt(br.readLine());*/
-        T=6;
+        T=dataset.size()-1;
 
         System.out.print("Enter value of k:");
         k=Integer.parseInt(br.readLine());
@@ -150,6 +183,7 @@ class mn{
         System.out.println(p);
         
         
+        calcPre();
 
         
         Random r=new Random();
@@ -181,12 +215,15 @@ class mn{
                 firstl.add(i);
                 decClus=clusterDecide(i);
                 cluster.get(decClus).add(i);
+                changeCntr(decClus);
             }
 
+            System.out.println("cntr:" + cntr);
+            System.out.println("cluster:"+cluster);
 
         }
 
-        System.out.println(cluster);
+        
 
         /*dataset=new cls().readData();
         for(int i=0;i<dataset.size();i++){
