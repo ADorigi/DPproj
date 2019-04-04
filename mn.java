@@ -160,6 +160,41 @@ class mn{
         
     }
 
+    public static double infoloss(int a){
+        List<Integer> curr = new ArrayList<Integer>(cluster.get(a));
+        int t,niMAX=0,niMIN=100,TniMAX=0,TniMIN=100;
+        
+        for(int i=0;i<curr.size();i++){
+            t=Integer.parseInt(dataset.get(curr.get(i))[0]);
+            if(t<niMIN)
+                niMIN=t;
+            if(t>niMAX)
+                niMAX=t;
+        }
+
+        for(int i=0;i<dataset.size();i++){
+            t=Integer.parseInt(dataset.get(i)[0]);
+            if(t<TniMIN)
+                TniMIN=t;
+            if(t>TniMAX)
+                TniMAX=t;
+
+        }
+
+
+        double infls = (niMAX-niMIN)/(TniMAX-TniMIN);
+        return infls;
+    }
+
+    public static void postProces(){
+        List<Double> infls = new ArrayList<Double>();
+
+        for(int i= 0; i<cluster.size();i++)
+            infls.add(infoloss(i));
+        
+        
+    }
+
 
     public static void main(String[] args) throws FileNotFoundException, IOException{
         
@@ -223,7 +258,7 @@ class mn{
 
         }
 
-        
+        //postProces();
 
         /*dataset=new cls().readData();
         for(int i=0;i<dataset.size();i++){
